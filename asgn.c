@@ -14,7 +14,7 @@ static void print_info(int freq, char *word) {
 
 static void print_help(){
     
-    /* Trying to do formatting to these standards */
+    /* Trying to do formatting to these standards  https://stackoverflow.com/questions/9725675/is-there-a-standard-format-for-command-line-shell-help-text */
     printf("This application reads words from an input file, stores them in a data structure, then prints out the words along with the frequency they appear in the input.\n
 To use this application:\n
 asgn <input_file> [options]\n
