@@ -142,8 +142,10 @@ tree tree_insert(tree t, char *str){
     else{
         t->left = tree_insert(t->left, str);
     }
-
-    t = tree_fix(t);
+    
+    if (tree_type == RBT){
+        t = tree_fix(t);
+    }
     return t;
 }
 
