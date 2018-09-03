@@ -10,7 +10,6 @@ typedef enum tree_e { BST, RBT } tree_t;
 extern tree right_rotate(tree t);
 extern tree left_rotate(tree t);
 extern tree tree_fix(tree t);
-extern tree tree_delete(tree t, char *str);
 extern tree tree_free(tree t);
 extern void tree_inorder(tree t, void f(int freq, char *str));
 extern tree tree_insert(tree t, char *str);
