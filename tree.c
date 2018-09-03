@@ -19,10 +19,20 @@ struct tree_node {
     int frequency;
 };
 
+tree root_fix(tree t){
+
+    t->colour = BLACK;
+    return t;
+}
+
 tree right_rotate(tree t){
     tree root, temp;
+    int root_flag = 0;
 
     root = t;
+    if (root == root_node){
+        root_flag = 1;
+    }
     temp = root;
 
     root = t->left;
@@ -30,13 +40,21 @@ tree right_rotate(tree t){
 
     root->right = temp;
 
+    if (root_flag == 1){
+        root_node = root;
+    }
+
     return root;
 }
 
 tree left_rotate(tree t){
     tree root, temp;
+    int root_flag = 0;
 
     root = t;
+    if (root == root_node){
+        root_flag = 1;
+    }
     temp = root;
 
     root = t->right;
@@ -44,6 +62,10 @@ tree left_rotate(tree t){
 
     root->left = temp;
 
+    if (root_flag == 1){
+        root_node = root;
+    }
+    
     return root;
 }
 
@@ -99,6 +121,8 @@ tree tree_fix(tree t){
         }
     }
 
+    root_fix(root_node);
+
     return t;
 }
 
@@ -116,24 +140,25 @@ tree tree_free(tree t){
     }
 }
 
-void tree_inorder(tree t, void f(char *str, tree_colour c)){
+void tree_inorder(tree t, void f(int freq, char *str)){
 
     if (t == NULL){
         return;
     }
-    tree_inorder(t->left, f);
+    tree_inorder(t->frequency, t->key);
     f(t->key, t->colour);
-    tree_inorder(t->right, f);
+    tree_inorder(t->frequency, t->key);f);
 }
 
 tree tree_insert(tree t, char *str){
 
-    if (t == NULL){
+    if (t == NULL || t->key == NULL){
         
         t = emalloc(sizeof *t);
         t->key = emalloc(strlen(str) * sizeof str[0] + 1);
         t->colour = RED;
         strcpy(t->key, str);
+        t->frequency = 1;
     }
     else if (strcmp(t->key, str) == 0){
         t->frequency++;
@@ -153,19 +178,30 @@ tree tree_insert(tree t, char *str){
 
 tree tree_new(tree_t type){
 
+    tree t;
+    
     tree_type = type;
-    return NULL;
+
+    t = emalloc(sizeof *t);
+    t->key = NULL;
+    t->colour = RED;
+    t->frequency = 0;
+
+    if (root_node == NULL){
+        root_node = t;
+    }
+    return t;
     
 }
 
-void tree_preorder(tree t, void f(char *str, tree_colour c)){
+void tree_preorder(tree t, void f(int freq, char *str)){
 
     if (t == NULL){
         return;
     }
     f(t->key, t->colour);
-    tree_preorder(t->left, f);
-    tree_preorder(t->right, f);
+    tree_preorder(t->frequency, t->key);
+    tree_preorder(t->frequency, t->key);
 }
 
 int tree_search(tree t, char *str){
