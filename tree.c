@@ -9,6 +9,8 @@
 
 static tree_t tree_type;
 
+static tree root_node = NULL;
+
 struct tree_node {
     char *key;
     tree_colour colour;
