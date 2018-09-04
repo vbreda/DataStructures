@@ -145,9 +145,9 @@ void tree_inorder(tree t, void f(int freq, char *str)){
     if (t == NULL){
         return;
     }
-    tree_inorder(t->frequency, t->key);
-    f(t->key, t->colour);
-    tree_inorder(t->frequency, t->key);f);
+    tree_inorder(t->left, f);
+    f(t->frequency, t->key);
+    tree_inorder(t->right, f);
 }
 
 tree tree_insert(tree t, char *str){
@@ -199,9 +199,9 @@ void tree_preorder(tree t, void f(int freq, char *str)){
     if (t == NULL){
         return;
     }
-    f(t->key, t->colour);
-    tree_preorder(t->frequency, t->key);
-    tree_preorder(t->frequency, t->key);
+    f(t->frequency, t->key);
+    tree_preorder(t->left, f);
+    tree_preorder(t->right, f);
 }
 
 int tree_search(tree t, char *str){
