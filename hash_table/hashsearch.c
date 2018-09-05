@@ -5,7 +5,7 @@
 
 int main(void) {
     
-    htable h = htable_new(113);
+    htable h = htable_new(113, DOUBLE_H);
     char word[256];
     char op;
     

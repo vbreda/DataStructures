@@ -7,17 +7,15 @@
 #define WORD_LEN 256
 
 int main(void){
-    htable h = htable_new(18143);
+    htable h = htable_new(100, DOUBLE_H);
     char word[WORD_LEN];
     clock_t start, end;
-
-    
     
     start = clock();
     while (getword(word, sizeof word, stdin) != EOF){
         htable_insert(h, word);
     }
-    htable_print(h, stdout);
+    htable_print_entire_table(h, stdout);
     htable_free(h);
     end = clock();
 
