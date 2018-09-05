@@ -164,36 +164,6 @@ int htable_search(htable h, char *str){
  */
 
 /**
- * Prints out a table showing what the following attributes were like
- * at regular intervals (as determined by num_stats) while the
- * hashtable was being built.
- *
- * @li Percent At Home - how many keys were placed without a collision
- * occurring.
- * @li Average Collisions - how many collisions have occurred on
- *  average while placing all of the keys so far.
- * @li Maximum Collisions - the most collisions that have occurred
- * while placing a key.
- *
- * @param h the hashtable to print statistics summary from.
- * @param stream the stream to send output to.
- * @param num_stats the maximum number of statistical snapshots to print.
- */
-void htable_print_stats(htable h, FILE *stream, int num_stats) {
-    int i;
-
-    fprintf(stream, "\n%s\n\n", 
-            h->method == LINEAR_P ? "Linear Probing" : "Double Hashing"); 
-    fprintf(stream, "Percent   Current   Percent    Average      Maximum\n");
-    fprintf(stream, " Full     Entries   At Home   Collisions   Collisions\n");
-    fprintf(stream, "-----------------------------------------------------\n");
-    for (i = 1; i <= num_stats; i++) {
-        print_stats_line(h, stream, 100 * i / num_stats);
-    }
-    fprintf(stream, "-----------------------------------------------------\n\n");
-}
-
-/**
  * Prints out a line of data from the hash table to reflect the state
  * the table was in when it was a certain percentage full.
  * Note: If the hashtable is less full than percent_full then no data
@@ -226,3 +196,34 @@ static void print_stats_line(htable h, FILE *stream, int percent_full) {
                 average_collisions / current_entries, max_collisions);
     }
 }
+
+/**
+ * Prints out a table showing what the following attributes were like
+ * at regular intervals (as determined by num_stats) while the
+ * hashtable was being built.
+ *
+ * @li Percent At Home - how many keys were placed without a collision
+ * occurring.
+ * @li Average Collisions - how many collisions have occurred on
+ *  average while placing all of the keys so far.
+ * @li Maximum Collisions - the most collisions that have occurred
+ * while placing a key.
+ *
+ * @param h the hashtable to print statistics summary from.
+ * @param stream the stream to send output to.
+ * @param num_stats the maximum number of statistical snapshots to print.
+ */
+void htable_print_stats(htable h, FILE *stream, int num_stats) {
+    int i;
+
+    fprintf(stream, "\n%s\n\n", 
+            h->method == LINEAR_P ? "Linear Probing" : "Double Hashing"); 
+    fprintf(stream, "Percent   Current   Percent    Average      Maximum\n");
+    fprintf(stream, " Full     Entries   At Home   Collisions   Collisions\n");
+    fprintf(stream, "-----------------------------------------------------\n");
+    for (i = 1; i <= num_stats; i++) {
+        print_stats_line(h, stream, 100 * i / num_stats);
+    }
+    fprintf(stream, "-----------------------------------------------------\n\n");
+}
+
