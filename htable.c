@@ -118,16 +118,15 @@ int htable_insert(htable h, char *str){
 
 }
 
-void htable_print(htable h, FILE *stream){
+void htable_print(htable h, void f(int freq, char *str)){
 
     int i;
 
     for (i = 0; i < h->capacity; i++){
         if (h->keys[i] != NULL){
-            fprintf(stream, "%s  -- Freq: %d\n", h->keys[i], h->frequencies[i]);
+            f(h->frequencies[i], h->keys[i]); 
         }
     }
-    printf("Num keys: %d\n", h->num_keys);
 }
 
 void htable_print_entire_table(htable h, FILE *stream){
