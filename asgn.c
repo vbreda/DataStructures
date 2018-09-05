@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <getopt.h>
 #include "tree.h"
-/*#include "htable.h"*/
+#include "htable.h"
 #include "mylib.h"
 
 #define TRUE 1
@@ -62,6 +62,8 @@ int main(int argc, char **argv){
     tree t;
     htable h;
     int tablesize;
+    FILE infile;
+    FILE outfile;
 
     int flag_T = FALSE;
     int flag_c = FALSE;
@@ -166,6 +168,14 @@ int main(int argc, char **argv){
             t = tree_insert(word);
         } else{
             htable_insert(h, word);
+        }
+    }
+
+    if (flag_o == TRUE && flag_T == TRUE && flag_c == FALSE){
+
+        outfile = fopen("tree-view.dot", "w");
+        tree_output_dot(t, outfile);
+    }
             
             
     return EXIT_SUCCESS;     
