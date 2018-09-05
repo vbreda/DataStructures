@@ -7,10 +7,10 @@
 #define WORD_LEN 256
 
 int main(void){
-    htable h = htable_new(113);
+    htable h = htable_new(18143);
     char word[WORD_LEN];
     clock_t start, end;
-    
+
     
     
     start = clock();
@@ -20,7 +20,7 @@ int main(void){
     htable_print(h, stdout);
     htable_free(h);
     end = clock();
-    
+
     printf("Time: %f\n", (end-start) / (double) CLOCKS_PER_SEC);
     
     return EXIT_SUCCESS;

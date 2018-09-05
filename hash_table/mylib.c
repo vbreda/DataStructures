@@ -26,7 +26,7 @@ int getword(char *s, int limit, FILE *stream){
     int c;
     char *w = s;
     assert(limit > 0 && s != NULL && stream != NULL);
-    
+
     /*skip to start of the word*/
     while (!isalnum(c = getc(stream)) && EOF != c)
         ;
@@ -47,3 +47,4 @@ int getword(char *s, int limit, FILE *stream){
     *w = '\0';
     return w - s;
 }
+

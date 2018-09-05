@@ -15,32 +15,57 @@ static void print_info(int freq, char *word) {
 static void print_help(){
     
     /* Trying to do formatting to these standards  https://stackoverflow.com/questions/9725675/is-there-a-standard-format-for-command-line-shell-help-text */
-    printf("This application reads words from an input file, stores them in a data structure, then prints out the words along with the frequency they appear in the input.\n
-To use this application:\n
-asgn <input_file> [options]\n
-\t options:\n
-\t\t-T\t\t Use a tree data structure (structure defaults to hash table).\n
-\t\t-c <filename>\t Check the spelling of words in filename, using the words read from stdin as the dictionary.\n
-\t\t-d\t\t Use double hashing (hashing is linear by default).\n
-\t\t-e\t\t Display the entire contents of a hash table to stderr.\n
-\t\t-o\t\t Outputs a representation of the tree in \"dot\" form to the file 'tree-view.dot'.\n
-\t\t-p\t\t Prints stats information instead of words and frequencies.\n
-\t\t-r\t\t Makes a tree structure a RBT (trees are BSTs by default).\n
-\t\t-s <snapshots>\t Display up to the given number of stats snapshots when given -p as an argument. Snapshots with 0 entires are not shown.\n
-\t\t-t <tablesize>\t Use the first prime >= tablesize as the intial hashtable size.\n
-\t\t-h\t\t Prints a help message describing how to use the program.\n")
+    printf("This application reads words from an input file, stores them in a data structure,then prints out the words along with the frequency they appear in the input.\nTo use this application:\n");
+    printf("asgn <input_file> [options]\n\t options:\n");
+    printf("\t\t-T\t\t Use a tree data structure (structure defaults to hash table).\n\t\t-c <filename>\t Check the spelling of words in filename, using the words read from stdin as the dictionary.\n");
+    printf("\t\t-d\t\t Use double hashing (hashing is linear by default).\n");
+    printf("\t\t-e\t\t Display the entire contents of a hash table to stderr.\n");
+    printf("\t\t-o\t\t Outputs a representation of the tree in \"dot\" form to the file 'tree-view.dot'.\n");
+    printf("\t\t-p\t\t Prints stats information instead of words and frequencies.\n");
+    printf("\t\t-r\t\t Makes a tree structure a RBT (trees are BSTs by default).\n");
+    printf("\t\t-s <snapshots>\t Display up to the given number of stats snapshots when given -p as an argument. Snapshots with 0 entires are not shown.\n");
+    printf("\t\t-t <tablesize>\t Use the first prime >= tablesize as the intial hashtable size.n\t\t-h\t\t Prints a help message describing how to use the program.\n");
            
 
 }
 
+static int isPrime(int n){
+    int i,j=0;
+    for(i=1; i<=n; i++){
+        if(n%i == 0)
+            j++;
+    }
+    if(j == 2){
+        return 1;
+    }
+    else if(j > 2){
+        return 0;
+    }
+}
 
-int main(void){
+static int find_next_prime(int a){
+    int i=a;
+    while(1) {
+        if(isPrime(i))
+            break;
+        i++;
+    }
+    return i;
+}
+
+
+int main(int argc, char **argv){
 
     const char *optstring = "ab:c";
     char option;
 
+    tree t;
+    htable h;
+    int tablesize;
+
     int flag_T = FALSE;
     int flag_c = FALSE;
+    int flag_d = FALSE;
     int flag_e = FALSE;
     int flag_o = FALSE;
     int flag_p = FALSE;
@@ -66,6 +91,7 @@ int main(void){
             case 'd':
                 /* Use double hashing as the collison resolution strategy
                  (linear is the default)*/
+                flag_d = TRUE;
                 break;
             case 'e':
                 /* Display entire contents of hash table on stderr using
@@ -86,7 +112,7 @@ int main(void){
                 flag_p = TRUE;
                 break;
             case 'r':
-                /* Make the tree and rbt instead of the default bst. */
+                /* Make the tree an rbt instead of the default bst. */
                 flag_r = TRUE;
                 break;
             case 's':
@@ -100,6 +126,7 @@ int main(void){
                    table. You can assume the tablesize will be a number
                    greater then 0. */
                 flag_t = TRUE;
+                tablesize = optarg;
                 break;
             case 'h':
                 /* Print a help message describing how to use the program. */
@@ -111,3 +138,35 @@ int main(void){
                 break;
         }
     }
+
+    if (flag_T == TRUE){
+        if (flag_r == TRUE){
+            t = tree_new(RBT);
+        } else{
+            t = tree_new(BST);
+        }
+        free(h);
+    } else{
+        if (flag_t == TRUE){
+            tablesize = find_next_prime(tablesize);
+        } else{
+            tablesize = 113;
+        }
+        if (flag_d == TRUE){
+            h = htable_new(tablesize, DOUBLE_H);
+        } else{
+            h = htable_new(tablesize, LINEAR_P);
+        }
+        free(t);
+    }
+
+    while (getword(word, sizeof word, stdin != EOF)){
+
+        if (flag_T == TRUE){
+            t = tree_insert(word);
+        } else{
+            htable_insert(h, word);
+            
+            
+    return EXIT_SUCCESS;     
+}
