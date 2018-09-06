@@ -58,6 +58,7 @@ int main(int argc, char **argv){
 
     const char *optstring = "ab:c";
     char option;
+    char word[256];
 
     tree t;
     htable h;
@@ -137,6 +138,11 @@ int main(int argc, char **argv){
                 
             default:
                 /* if an unknown option is given */
+	      free(t);
+	      h = htable_new(113, LINEAR_P);
+
+	      while (getword(word, sizeof word, stdin != EOF)){
+		htable_insert(word);
                 break;
         }
     }
