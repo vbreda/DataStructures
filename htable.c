@@ -134,9 +134,11 @@ void htable_print_entire_table(htable h, FILE *stream){
     int i;
 
     for (i = 0; i < h->capacity; i++){
-        if (h->keys[i] != NULL){
+      if (h->keys[i] != NULL){
             fprintf(stream, "%5d %5d %5d  %s\n", i, h->frequencies[i], h->stats[i], h->keys[i]);
-        }
+      } else{
+	fprintf(stream, "%5d %5d %5d  %s\n", i, h->frequencies[i], h->stats[i], "");
+      }
     }
 }
 
