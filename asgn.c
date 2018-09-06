@@ -62,7 +62,7 @@ int main(int argc, char **argv){
 
     tree t;
     htable h;
-    int tablesize;
+    int tablesize, snapshots;
     FILE infile;
     FILE outfile;
 
@@ -73,6 +73,7 @@ int main(int argc, char **argv){
     int flag_o = FALSE;
     int flag_p = FALSE;
     int flag_r = FALSE;
+    int flag_s = FALSE;
     int flag_t = FALSE;
     
 
@@ -123,6 +124,8 @@ int main(int argc, char **argv){
                    given -p as an argument. If the table is not full then
                    fewer snapshots will be displayed. Snapshots with 0 entires
                    are not shown. */
+                flag_s = TRUE;
+                snapshots = optarg;
                 break;
             case 't':
                 /* Use the first prime >= tablesize as the size of your hash
@@ -135,15 +138,10 @@ int main(int argc, char **argv){
                 /* Print a help message describing how to use the program. */
                 print_help();
                 break;
-                
             default:
                 /* if an unknown option is given */
-	      free(t);
-	      h = htable_new(113, LINEAR_P);
-
-	      while (getword(word, sizeof word, stdin != EOF)){
-		htable_insert(word);
-                break;
+                print_help();
+              break;
         }
     }
 
@@ -171,9 +169,32 @@ int main(int argc, char **argv){
     while (getword(word, sizeof word, stdin != EOF)){
 
         if (flag_T == TRUE){
-            t = tree_insert(word);
+            t = tree_insert(t, word);
         } else{
             htable_insert(h, word);
+        }
+    }
+
+    if (flag_e == TRUE){
+        htable_print_entire_table(h, stderr);
+    }
+
+    if (flag_c == TRUE){
+    }
+    else if (flag_p == TRUE && flag_T == FALSE && flag_c == FALSE){
+        
+        if (flag_s == TRUE){
+            htable_print_stats(h, stdout, snapshots);
+        } else{
+            htable_print_stats(h, stdout, 1);
+        }
+    }
+    else {
+        if (flag_T == TRUE){
+            tree_preorder(t, print_info);
+        }
+        else{
+            htable_print(h, print_info);
         }
     }
 
@@ -182,7 +203,8 @@ int main(int argc, char **argv){
         outfile = fopen("tree-view.dot", "w");
         tree_output_dot(t, outfile);
     }
-            
+
+    
             
     return EXIT_SUCCESS;     
 }
