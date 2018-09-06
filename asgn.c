@@ -41,6 +41,7 @@ static int isPrime(int n){
     else if(j > 2){
         return 0;
     }
+    return 0;
 }
 
 static int find_next_prime(int a){
@@ -63,8 +64,8 @@ int main(int argc, char **argv){
     tree t;
     htable h;
     int tablesize, snapshots;
-    FILE infile;
-    FILE outfile;
+    FILE *infile;
+    FILE *outfile;
 
     int flag_T = FALSE;
     int flag_c = FALSE;
@@ -125,14 +126,14 @@ int main(int argc, char **argv){
                    fewer snapshots will be displayed. Snapshots with 0 entires
                    are not shown. */
                 flag_s = TRUE;
-                snapshots = optarg;
+                snapshots = atoi(optarg);
                 break;
             case 't':
                 /* Use the first prime >= tablesize as the size of your hash
                    table. You can assume the tablesize will be a number
                    greater then 0. */
                 flag_t = TRUE;
-                tablesize = optarg;
+                tablesize = atoi(optarg);
                 break;
             case 'h':
                 /* Print a help message describing how to use the program. */
@@ -151,7 +152,6 @@ int main(int argc, char **argv){
         } else{
             t = tree_new(BST);
         }
-        free(h);
     } else{
         if (flag_t == TRUE){
             tablesize = find_next_prime(tablesize);
@@ -163,7 +163,6 @@ int main(int argc, char **argv){
         } else{
             h = htable_new(tablesize, LINEAR_P);
         }
-        free(t);
     }
 
     while (getword(word, sizeof word, stdin != EOF)){
