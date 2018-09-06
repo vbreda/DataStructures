@@ -17,16 +17,17 @@ static void print_help(){
     /* Trying to do formatting to these standards  https://stackoverflow.com/questions/9725675/is-there-a-standard-format-for-command-line-shell-help-text */
     printf("This application reads words from an input file, stores them in a data structure,then prints out the words along with the frequency they appear in the input.\nTo use this application:\n");
     printf("asgn <input_file> [options]\n\t options:\n");
-    printf("\t\t-T\t\t Use a tree data structure (structure defaults to hash table).\n\t\t-c <filename>\t Check the spelling of words in filename, using the words read from stdin as the dictionary.\n");
-    printf("\t\t-d\t\t Use double hashing (hashing is linear by default).\n");
-    printf("\t\t-e\t\t Display the entire contents of a hash table to stderr.\n");
-    printf("\t\t-o\t\t Outputs a representation of the tree in \"dot\" form to the file 'tree-view.dot'.\n");
-    printf("\t\t-p\t\t Prints stats information instead of words and frequencies.\n");
-    printf("\t\t-r\t\t Makes a tree structure a RBT (trees are BSTs by default).\n");
-    printf("\t\t-s <snapshots>\t Display up to the given number of stats snapshots when given -p as an argument. Snapshots with 0 entires are not shown.\n");
-    printf("\t\t-t <tablesize>\t Use the first prime >= tablesize as the intial hashtable size.n\t\t-h\t\t Prints a help message describing how to use the program.\n");
+    printf("\t-T\t\t Use a tree data structure (structure defaults to hash table).\n\t-c <filename>\t Check the spelling of words in filename, using the words read from stdin as the dictionary.\n");
+    printf("\t-d\t\t Use double hashing (hashing is linear by default).\n");
+    printf("\t-e\t\t Display the entire contents of a hash table to stderr.\n");
+    printf("\t-o\t\t Outputs a representation of the tree in \"dot\" form to the file 'tree-view.dot'.\n");
+    printf("\t-p\t\t Prints stats information instead of words and frequencies.\n");
+    printf("\t-r\t\t Makes a tree structure a RBT (trees are BSTs by default).\n");
+    printf("\t-s <snapshots>\t Display up to the given number of stats snapshots when given -p as an argument. Snapshots with 0 entires are not shown.\n");
+    printf("\t-t <tablesize>\t Use the first prime >= tablesize as the intial hashtable size.\n\t-h\t\t Prints a help message describing how to use the program.\n");
+    
            
-
+    exit(EXIT_SUCCESS);
 }
 
 static int isPrime(int n){
@@ -57,7 +58,7 @@ static int find_next_prime(int a){
 
 int main(int argc, char **argv){
 
-    const char *optstring = "ab:c";
+    const char *optstring = "Tc:deoprs:t:h";
     char option;
     char word[256];
 
@@ -199,6 +200,7 @@ int main(int argc, char **argv){
 
     if (flag_o == TRUE && flag_T == TRUE && flag_c == FALSE){
 
+        printf("Creating dot file 'tree-view.dot'\n");
         outfile = fopen("tree-view.dot", "w");
         tree_output_dot(t, outfile);
     }
