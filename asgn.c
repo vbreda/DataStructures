@@ -165,7 +165,7 @@ int main(int argc, char **argv){
         }
     }
 
-    while (getword(word, sizeof word, stdin != EOF)){
+    while (getword(word, sizeof word, stdin) != EOF){
 
         if (flag_T == TRUE){
             t = tree_insert(t, word);
