@@ -139,17 +139,18 @@ void htable_print_entire_table(htable h, FILE *stream) {
 int htable_search(htable h, char *str) {
 
     int collisions = 0;
-    unsigned int hash = htable_word_to_int(str) % h->capacity;
+    unsigned int index = htable_word_to_int(str);
+    unsigned int hash = index % h->capacity;
     unsigned int step = htable_step(h, hash);
     
-    while (h->keys[hash] != NULL && (strcmp(h->keys[hash], str) != 0)
-           && collisions < h->capacity) {
+    while (h->keys[hash] != NULL && strcmp(h->keys[hash], str) != 0
+           && collisions != h->capacity) {
 
         hash += step;
         collisions++;
     }
     
-    if (collisions >= h->capacity) {
+    if (collisions == h->capacity) {
         return 0;
     } else {
         return h->frequencies[hash];

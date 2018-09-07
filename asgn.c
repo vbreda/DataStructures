@@ -61,10 +61,11 @@ int main(int argc, char **argv){
     const char *optstring = "Tc:deoprs:t:h";
     char option;
     char word[256];
+    char *filename;
 
     tree t;
     htable h;
-    int tablesize, snapshots, insert_count;
+    int tablesize, snapshots, found;
     FILE *infile;
     FILE *outfile;
 
@@ -92,6 +93,7 @@ int main(int argc, char **argv){
                    stdout. Print timing information and unknown word count to
                    stderr. When this option is given the -p or -o options
                    should be ignored. */
+                filename = optarg;
                 flag_c = TRUE;
                 break;
             case 'd':
@@ -173,7 +175,6 @@ int main(int argc, char **argv){
         } else{
             htable_insert(h, word);
         }
-        insert_count++;
     }
 
     if (flag_e == TRUE){
@@ -181,7 +182,24 @@ int main(int argc, char **argv){
     }
 
     if (flag_c == TRUE){
+
+        infile = fopen(filename, "r");
+
+       
+        if (infile == NULL) { 
+            fprintf(stderr, "Error: no file specified");
+            return EXIT_FAILURE;
+        }
+        
+        while(getword(word, sizeof word, infile) != EOF){
+            found = htable_search(h, word);
+          
+            if (found == 0){
+                fprintf(stdout, "%s\n", word);
+            }
+        }
     }
+    
     else if (flag_p == TRUE && flag_T == FALSE && flag_c == FALSE){
         
         if (flag_s == TRUE){
