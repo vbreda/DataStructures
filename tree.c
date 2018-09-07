@@ -170,6 +170,9 @@ tree tree_insert(tree t, char *str){
         t->left = tree_insert(t->left, str);
     }
 
+    if (root_node == NULL){
+      root_node = t;
+    }
    
     if (tree_type == RBT){
         t = tree_fix(t);
@@ -191,12 +194,8 @@ tree tree_new(tree_t type){
     }
     t->frequency = 0;
 
-    if (root_node == NULL){
-        root_node = t;
-    }
     return t;
-  
-    return NULL;
+
 }
 
 void tree_preorder(tree t, void f(int freq, char *str)){
