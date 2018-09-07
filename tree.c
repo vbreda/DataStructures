@@ -25,106 +25,101 @@ tree root_fix(tree t){
     return t;
 }
 
-tree right_rotate(tree t){
-    tree root, temp;
+static tree right_rotate(tree t){
+    tree temp;
     int root_flag = 0;
 
-    root = t;
-    if (root == root_node){
-        root_flag = 1;
-    }
-    temp = root;
-
-    root = t->left;
-    temp->left = root->right;
-
-    root->right = temp;
-
-    if (root_flag == 1){
-        root_node = root;
-    }
-
-    return root;
-}
-
-tree left_rotate(tree t){
-    tree root, temp;
-    int root_flag = 0;
-
-    root = t;
-    if (root == root_node){
-        root_flag = 1;
-    }
-    temp = root;
-
-    root = t->right;
-    temp->right = root->left;
-
-    root->left = temp;
-
-    if (root_flag == 1){
-        root_node = root;
-    }
     
-    return root;
+    if (t == root_node){
+        root_flag = 1;
+        }
+    temp = t;
+
+    t = t->left;
+    temp->left = t->right;
+
+    t->right = temp;
+
+    if (root_flag == 1){
+        root_node = t;
+    }
+
+    return t;
 }
 
-tree tree_fix(tree t){
+static tree left_rotate(tree t){
+    tree  temp;
+    int root_flag = 0;
 
+    if (t == root_node){
+        root_flag = 1;
+        }
+    temp = t;
+
+    t = t->right;
+    temp->right = t->left;
+
+    t->left = temp;
+
+    if (root_flag == 1){
+        root_node = t;
+        }
+    
+    return t;
+}
+
+static tree tree_fix(tree t){
+    
     if(IS_RED(t->left) && IS_RED(t->left->left)){
-        if (IS_RED(t->right)){
+        if(IS_RED(t->right)){
             t->colour = RED;
             t->left->colour = BLACK;
             t->right->colour = BLACK;
-        }else{
+        } else if(IS_BLACK(t->right)){
             t = right_rotate(t);
             t->colour = BLACK;
             t->right->colour = RED;
         }
-    }
+    }else if(IS_RED(t->left) && IS_RED(t->left->right)){
 
-    else if(IS_RED(t->left) && IS_RED(t->left->right)){
-        if (IS_RED(t->right)){
+        if(IS_RED(t->right)){
             t->colour = RED;
             t->left->colour = BLACK;
             t->right->colour = BLACK;
-        }else{
+        } else if(IS_BLACK(t->right)){
             t->left = left_rotate(t->left);
             t = right_rotate(t);
             t->colour = BLACK;
             t->right->colour = RED;
         }
-    }
+    }else if(IS_RED(t->right) && IS_RED(t->right->left)){
 
-    else if(IS_RED(t->right) && IS_RED(t->right->left)){
-        if (IS_RED(t->left)){
+        if(IS_RED(t->left)){
             t->colour = RED;
             t->left->colour = BLACK;
             t->right->colour = BLACK;
-        }else{
+        } else if(IS_BLACK(t->left)){
             t->right = right_rotate(t->right);
             t = left_rotate(t);
             t->colour = BLACK;
-            t->right->colour= RED;
+            t->left->colour = RED;
         }
-    }
+    }else if(IS_RED(t->right) && IS_RED(t->right->right)){
 
-    else if (IS_RED(t->right) && IS_RED(t->right->right)){
-        if (IS_RED(t->left)){
+        if(IS_RED(t->left)){
             t->colour = RED;
             t->left->colour = BLACK;
             t->right->colour = BLACK;
-        }else{
+        } else if(IS_BLACK(t->left)){ 
             t = left_rotate(t);
             t->colour = BLACK;
             t->left->colour = RED;
         }
     }
-
     root_fix(root_node);
-
     return t;
 }
+
 
 
 tree tree_free(tree t){
@@ -156,7 +151,9 @@ tree tree_insert(tree t, char *str){
         
         t = emalloc(sizeof *t);
         t->key = emalloc(strlen(str) * sizeof str[0] + 1);
-        t->colour = RED;
+        if (tree_type == RBT){
+            t->colour = RED;
+        }
         strcpy(t->key, str);
         t->frequency = 1;
     }
@@ -169,10 +166,12 @@ tree tree_insert(tree t, char *str){
     else{
         t->left = tree_insert(t->left, str);
     }
-    
+
+   
     if (tree_type == RBT){
         t = tree_fix(t);
     }
+    
     return t;
 }
 
@@ -184,7 +183,9 @@ tree tree_new(tree_t type){
 
     t = emalloc(sizeof *t);
     t->key = NULL;
-    t->colour = RED;
+    if (tree_type == RBT){
+        t->colour = RED;
+    }
     t->frequency = 0;
 
     if (root_node == NULL){
