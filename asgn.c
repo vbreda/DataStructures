@@ -206,6 +206,11 @@ int main(int argc, char **argv){
         tree_output_dot(t, outfile);
     }
 
+    if (flag_T == TRUE){
+        tree_free(t);
+    } else{
+        htable_free(h);
+    }
     
             
     return EXIT_SUCCESS;     
