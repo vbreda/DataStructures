@@ -177,14 +177,13 @@ int main(int argc, char **argv){
         }
     }
 
-    if (flag_e == TRUE){
+    if (flag_e == TRUE && flag_T == FALSE){
         htable_print_entire_table(h, stderr);
     }
 
     if (flag_c == TRUE){
 
         infile = fopen(filename, "r");
-
        
         if (infile == NULL) { 
             fprintf(stderr, "Error: no file specified");
@@ -192,12 +191,19 @@ int main(int argc, char **argv){
         }
         
         while(getword(word, sizeof word, infile) != EOF){
-            found = htable_search(h, word);
-          
+
+            if(flag_T == TRUE){
+                found = tree_search(t, word);
+            }
+            else{
+                found = htable_search(h, word);
+            }
+            
             if (found == 0){
                 fprintf(stdout, "%s\n", word);
             }
         }
+        fclose(infile);
     }
     
     else if (flag_p == TRUE && flag_T == FALSE && flag_c == FALSE){

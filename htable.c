@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 #include "mylib.h"
 #include "htable.h"
 
@@ -39,7 +40,9 @@ void htable_free(htable h) {
     int i;
 
     for (i = 0; i < h->capacity; i++) {
-        free(h->keys[i]);
+        if (h->keys[i]){
+            free(h->keys[i]);
+        }
     }
     
     free(h->keys);
@@ -136,6 +139,14 @@ void htable_print_entire_table(htable h, FILE *stream) {
     }
 }
 
+int compare(char *str1, char *str2) {
+    while (*str1 && *str1 == *str2) {
+        str1++;
+        str2++;
+    }
+    return *str1 - *str2;
+}
+
 int htable_search(htable h, char *str) {
 
     int collisions = 0;
@@ -143,11 +154,12 @@ int htable_search(htable h, char *str) {
     unsigned int hash = index % h->capacity;
     unsigned int step = htable_step(h, hash);
 
-    
-    while (h->keys[hash] != NULL && strcmp(h->keys[hash], str) != 0
+    while (h->keys[hash] != NULL &&
+           compare(str, h->keys[hash]) != 0
            && collisions != h->capacity) {
 
         hash += step;
+        hash %= h->capacity;
         collisions++;
     }
     

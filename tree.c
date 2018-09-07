@@ -117,7 +117,6 @@ static tree tree_fix(tree t){
         }
     }
 
-    printf("Chaning %s (root) to black \n", root_node->key);
     root_node = root_fix(root_node);
 
     return t;
@@ -127,6 +126,7 @@ static tree tree_fix(tree t){
 
 tree tree_free(tree t){
 
+    /*free(root_node);*/
     if (t == NULL){
         return t;
     }else{
@@ -195,7 +195,8 @@ tree tree_new(tree_t type){
         root_node = t;
     }
     return t;
-    
+  
+    return NULL;
 }
 
 void tree_preorder(tree t, void f(int freq, char *str)){
