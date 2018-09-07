@@ -64,7 +64,7 @@ int main(int argc, char **argv){
 
     tree t;
     htable h;
-    int tablesize, snapshots;
+    int tablesize, snapshots, insert_count;
     FILE *infile;
     FILE *outfile;
 
@@ -173,6 +173,7 @@ int main(int argc, char **argv){
         } else{
             htable_insert(h, word);
         }
+        insert_count++;
     }
 
     if (flag_e == TRUE){
@@ -186,7 +187,7 @@ int main(int argc, char **argv){
         if (flag_s == TRUE){
             htable_print_stats(h, stdout, snapshots);
         } else{
-            htable_print_stats(h, stdout, 1);
+            htable_print_stats(h, stdout, 10);
         }
     }
     else {
