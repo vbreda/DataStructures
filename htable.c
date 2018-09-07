@@ -142,6 +142,7 @@ int htable_search(htable h, char *str) {
     unsigned int index = htable_word_to_int(str);
     unsigned int hash = index % h->capacity;
     unsigned int step = htable_step(h, hash);
+
     
     while (h->keys[hash] != NULL && strcmp(h->keys[hash], str) != 0
            && collisions != h->capacity) {

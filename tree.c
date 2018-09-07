@@ -116,7 +116,10 @@ static tree tree_fix(tree t){
             t->left->colour = RED;
         }
     }
-    root_fix(root_node);
+
+    printf("Chaning %s (root) to black \n", root_node->key);
+    root_node = root_fix(root_node);
+
     return t;
 }
 
