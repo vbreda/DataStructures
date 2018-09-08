@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
+#include <time.h>
 #include "tree.h"
 #include "htable.h"
 #include "mylib.h"
@@ -65,9 +66,11 @@ int main(int argc, char **argv){
 
     tree t;
     htable h;
-    int tablesize, snapshots, found;
+    int tablesize, snapshots, found, unknown;
     FILE *infile;
     FILE *outfile;
+    clock_t start, end;
+    double fill_time = 0.0, search_time = 0.0;
 
     int flag_T = FALSE;
     int flag_c = FALSE;
@@ -167,7 +170,9 @@ int main(int argc, char **argv){
             h = htable_new(tablesize, LINEAR_P);
         }
     }
-
+    
+    start = clock();
+    
     while (getword(word, sizeof word, stdin) != EOF){
 
         if (flag_T == TRUE){
@@ -176,19 +181,24 @@ int main(int argc, char **argv){
             htable_insert(h, word);
         }
     }
-
+    
+    end = clock();
+    fill_time = (end - start) / (double) CLOCKS_PER_SEC;
+    
     if (flag_e == TRUE && flag_T == FALSE){
         htable_print_entire_table(h, stderr);
     }
 
     if (flag_c == TRUE){
-
+        unknown = 0;
         infile = fopen(filename, "r");
        
         if (infile == NULL) { 
             fprintf(stderr, "Error: no file specified");
             return EXIT_FAILURE;
         }
+        
+        start = clock();
         
         while(getword(word, sizeof word, infile) != EOF){
 
@@ -201,9 +211,17 @@ int main(int argc, char **argv){
             
             if (found == 0){
                 fprintf(stdout, "%s\n", word);
+                unknown++;
             }
         }
+        
+        end = clock();
+        search_time = (end - start) / (double) CLOCKS_PER_SEC;
         fclose(infile);
+        
+        fprintf(stderr, "Fill time     : %f\n", fill_time);
+        fprintf(stderr, "Search time   : %f\n", search_time);
+        fprintf(stderr, "Unknown words = %d\n", unknown);
     }
     
     else if (flag_p == TRUE && flag_T == FALSE && flag_c == FALSE){
