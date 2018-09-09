@@ -16,16 +16,24 @@ static void print_info(int freq, char *word) {
 static void print_help(){
     
     /* Trying to do formatting to these standards  https://stackoverflow.com/questions/9725675/is-there-a-standard-format-for-command-line-shell-help-text */
-    printf("This application reads words from an input file, stores them in a data structure,then prints out the words along with the frequency they appear in the input.\nTo use this application:\n");
-    printf("asgn <input_file> [options]\n\t options:\n");
-    printf("\t-T\t\t Use a tree data structure (structure defaults to hash table).\n\t-c <filename>\t Check the spelling of words in filename, using the words read from stdin as the dictionary.\n");
-    printf("\t-d\t\t Use double hashing (hashing is linear by default).\n");
-    printf("\t-e\t\t Display the entire contents of a hash table to stderr.\n");
-    printf("\t-o\t\t Outputs a representation of the tree in \"dot\" form to the file 'tree-view.dot'.\n");
-    printf("\t-p\t\t Prints stats information instead of words and frequencies.\n");
-    printf("\t-r\t\t Makes a tree structure a RBT (trees are BSTs by default).\n");
-    printf("\t-s <snapshots>\t Display up to the given number of stats snapshots when given -p as an argument. Snapshots with 0 entires are not shown.\n");
-    printf("\t-t <tablesize>\t Use the first prime >= tablesize as the intial hashtable size.\n\t-h\t\t Prints a help message describing how to use the program.\n");
+  printf("Usage: ./asgn [OPTIONS]... <STDIN>\n\n");
+  
+  printf("Perform tasks using a hash table or binary tree.  By default, words\n");
+  printf("read from stdin are added to the data structure before printing\n");
+  printf("them, along with their frequencies, to stdout.\n\n");
+  
+  printf("-T           Use a tree data structure (deafult is hash table)\n");
+  printf("-c FILENAME  Check the spelling of words in FILENAME using the words\n");
+  printf("             read from stdin as dictionary. Print unknown words to\n");
+  printf("             stdout, timing info etc to stderr (ignore -o & -p)\n");
+  printf("-d           Use double hashing (linear probing is the default)\n");
+  printf("-e           Display the entire contents of hash table to stderr\n");
+  printf("-o           Output the tree in DOT form to  file 'tree-view.dot'\n");
+  printf("-p           Print hash table stats instead of frequencies & words\n");
+  printf("-r           Makes the tree an RBT (the default is a BST)\n");
+  printf("-s SNAPSHOTS Show SNAPSHOTS stats snapshots (if -p is used)\n");
+  printf("-t TABLESIZE Use the first prime >= TABLESIZE as htable size.\n\n");
+  printf("-h           Display this message\n\n");
     
            
     exit(EXIT_SUCCESS);
