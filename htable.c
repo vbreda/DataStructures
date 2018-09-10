@@ -27,7 +27,8 @@ struct htablerec {
  * Purpose: creates a new instance of htable.
  *
  * @param capacity describes how many items the new htable holds.
- * @param method determines between linear probing or double hashing as a collision resolution strategy.
+ * @param method determines between linear probing or double hashing
+ * as a collision resolution strategy.
  * @return result the new htable created.
  */
 htable htable_new(int cap, hashing_t method) {
@@ -111,7 +112,8 @@ static unsigned int htable_step(htable h, unsigned int i_key) {
  *
  * @param h the hash table into which keys are inserted.
  * @param str the word to be inserted into the container.
- * @return 0 if the htable is full, 1 if the key is inserted for the first time, or the frequency of that key if it being inserted again.
+ * @return 0 if the htable is full, 1 if the key is inserted for the first time,
+ * or the frequency of that key if it being inserted again.
  */
 int htable_insert(htable h, char *str) {
 
@@ -185,13 +187,24 @@ void htable_print_entire_table(htable h, FILE *stream) {
     
     for (i = 0; i < h->capacity; i++) {
         if (h->keys[i] != NULL) {
-            fprintf(stream, "%5d %5d %5d   %s\n", i, h->frequencies[i], h->stats[i], h->keys[i]);
+            fprintf(stream, "%5d %5d %5d   %s\n", i, h->frequencies[i],
+                    h->stats[i], h->keys[i]);
         } else {
-            fprintf(stream, "%5d %5d %5d   %s\n", i, h->frequencies[i], h->stats[i], "");
+            fprintf(stream, "%5d %5d %5d   %s\n", i, h->frequencies[i],
+                    h->stats[i], "");
         }
     }
 }
 
+/**
+ * Function: htable_search
+ * Searches through the hash table.
+ *
+ * @param h hash table where keys are searched for.
+ * @param str the word to be searched for.
+ * @return 0 if number of collisions reached capacity,
+ * or the frequency of the word being searched. 
+ */
 int htable_search(htable h, char *str) {
 
     int collisions = 0;
