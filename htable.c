@@ -1,10 +1,18 @@
+/**
+ * File: htable.c
+ * @author: Vivian Breda, Josh King, Abinaya Saravanapavan.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <strings.h>
 #include "mylib.h"
 #include "htable.h"
 
+/**
+ * Struct: htablerec
+ * Purpose: declares the variables for the htable.
+ */
 struct htablerec {
     int capacity;
     int num_keys;
@@ -14,6 +22,14 @@ struct htablerec {
     hashing_t method;
 };
 
+/**
+ * Function: htable_new
+ * Purpose: creates a new instance of htable.
+ *
+ * @param capacity describes how many items the new htable holds.
+ * @param method determines between linear probing or double hashing as a collision resolution strategy.
+ * @return result the new htable created.
+ */
 htable htable_new(int cap, hashing_t method) {
     int i;
     htable result = emalloc(sizeof *result);
@@ -36,6 +52,12 @@ htable htable_new(int cap, hashing_t method) {
     return result;
 }
 
+/**
+ * Function: htable_free
+ * Purpose: frees up the memory allocated to the htable.
+ *
+ * @param h the hash table to be freed.
+ */
 void htable_free(htable h) {
     int i;
 
@@ -51,6 +73,14 @@ void htable_free(htable h) {
     free(h);
 }
 
+/**
+ * Function: htable_word_to_int
+ * Purpose: converts a word to an integer, to use as an index position
+ * in htable_search.
+ *
+ * @word char which is a pointer to word.
+ * @return result the word converted to an unsigned int.
+ */
 static unsigned int htable_word_to_int(char *word) {
     unsigned int result = 0;
 
@@ -75,6 +105,14 @@ static unsigned int htable_step(htable h, unsigned int i_key) {
     exit(EXIT_FAILURE);
 }
 
+/**
+ * Function: htable_insert
+ * Purpose: inserts a string into the htable.
+ *
+ * @param h the hash table into which keys are inserted.
+ * @param str the word to be inserted into the container.
+ * @return 0 if the htable is full, 1 if the key is inserted for the first time, or the frequency of that key if it being inserted again.
+ */
 int htable_insert(htable h, char *str) {
 
     unsigned int index, hash, i, position, collisions = 0;
@@ -112,6 +150,15 @@ int htable_insert(htable h, char *str) {
     return 0;
 }
 
+/**
+ * Function: htable_print
+ * Purpose: prints out the htable.
+ *
+ * @param h the htable to be printed out.
+ * @param f another function passed in with parameters freq and str.
+ * @param freq frequencies of the strings.
+ * @param str the string inserted.
+ */
 void htable_print(htable h, void f(int freq, char *str)) {
 
     int i;
@@ -123,6 +170,12 @@ void htable_print(htable h, void f(int freq, char *str)) {
     }
 }
 
+/**
+ * Function: htable_print_entire_table
+ * Purpose: prints the entire contents of the htable. 
+ *
+ * @param h the htable.
+ */
 void htable_print_entire_table(htable h, FILE *stream) {
 
     int i;
@@ -139,14 +192,6 @@ void htable_print_entire_table(htable h, FILE *stream) {
     }
 }
 
-int compare(char *str1, char *str2) {
-    while (*str1 && *str1 == *str2) {
-        str1++;
-        str2++;
-    }
-    return *str1 - *str2;
-}
-
 int htable_search(htable h, char *str) {
 
     int collisions = 0;
@@ -155,7 +200,7 @@ int htable_search(htable h, char *str) {
     unsigned int step = htable_step(h, hash);
 
     while (h->keys[hash] != NULL &&
-           compare(str, h->keys[hash]) != 0
+           strcmp(str, h->keys[hash]) != 0
            && collisions != h->capacity) {
 
         hash += step;
