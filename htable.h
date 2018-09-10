@@ -1,5 +1,5 @@
 /**
- *  File: htable.h
+ * File: htable.h
  * @author Vivian Breda, Josh King, Abinaya Saravanapavan.
  */
 
