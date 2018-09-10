@@ -254,6 +254,7 @@ int main(int argc, char **argv){
         printf("Creating dot file 'tree-view.dot'\n");
         outfile = fopen("tree-view.dot", "w");
         tree_output_dot(t, outfile);
+        fclose(outfile);
     }
 
     if (flag_T == TRUE){

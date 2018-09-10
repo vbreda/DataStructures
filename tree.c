@@ -126,7 +126,6 @@ static tree tree_fix(tree t){
 
 tree tree_free(tree t){
 
-    /*free(root_node);*/
     if (t == NULL){
         return t;
     }else{
@@ -151,8 +150,10 @@ void tree_inorder(tree t, void f(int freq, char *str)){
 tree tree_insert(tree t, char *str){
 
     if (t == NULL || t->key == NULL){
-        
-        t = emalloc(sizeof *t);
+
+        if (t == NULL){
+            t = tree_new(tree_type);
+        }
         t->key = emalloc(strlen(str) * sizeof str[0] + 1);
         if (tree_type == RBT){
             t->colour = RED;
@@ -187,11 +188,12 @@ tree tree_new(tree_t type){
     
     tree_type = type;
 
+    
     t = emalloc(sizeof *t);
     t->key = NULL;
-    if (tree_type == RBT){
-        t->colour = RED;
-    }
+    t->colour = RED;
+    t->left = NULL;
+    t->right = NULL;
     t->frequency = 0;
 
     return t;
