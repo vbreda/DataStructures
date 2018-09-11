@@ -26,7 +26,7 @@ struct htablerec {
  * Function: htable_new
  * Purpose: creates a new instance of htable.
  *
- * @param capacity describes how many items the new htable holds.
+ * @param cap describes how many items the new htable holds.
  * @param method determines between linear probing or double hashing
  * as a collision resolution strategy.
  * @return result the new htable created.

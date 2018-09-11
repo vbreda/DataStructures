@@ -1,3 +1,8 @@
+/**
+ * File: htable.c
+ * @author: Vivian Breda, Josh King, Abinaya Saravanapavan.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
@@ -9,10 +14,21 @@
 #define TRUE 1
 #define FALSE 0
 
+/**
+ * Function: print_info
+ * Purpose: prints the frequency of a word and the word itself.
+ *
+ * @param freq is the frequency of the word. 
+ * @param word is a pointer to the word in question. 
+ */
 static void print_info(int freq, char *word) {
     printf("%-4d %s\n", freq, word);
 }
 
+/**
+ * Function: print_help
+ * Purpose: prints a helpful board listing the choices a user can take. 
+ */
 static void print_help(){
     
     /* Trying to do formatting to these standards  https://stackoverflow.com/questions/9725675/is-there-a-standard-format-for-command-line-shell-help-text */
@@ -39,7 +55,14 @@ static void print_help(){
     exit(EXIT_SUCCESS);
 }
 
-static int isPrime(int n){
+/**
+ * Function: is_prime
+ * Purpose: determines whether an integer is a prime number. 
+ *
+ * @param n is the integer whos prime status is to be determined. 
+ * @return 1 if prime, 0 if not prime. 
+ */
+static int is_prime(int n){
     int i,j=0;
     for(i=1; i<=n; i++){
         if(n%i == 0)
@@ -54,17 +77,26 @@ static int isPrime(int n){
     return 0;
 }
 
+/**
+ * Function: find_next_prime
+ * Purpose: finds the next prime number. 
+ *
+ * @param a is the integer from which the search starts. 
+ * @return i the integer which is the next prime after a. 
+ */
 static int find_next_prime(int a){
     int i=a;
     while(1) {
-        if(isPrime(i))
+        if(is_prime(i))
             break;
         i++;
     }
     return i;
 }
 
-
+/**
+ * Main method
+ */ 
 int main(int argc, char **argv){
 
     const char *optstring = "Tc:deoprs:t:h";

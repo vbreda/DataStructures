@@ -29,12 +29,26 @@ struct tree_node {
     int frequency;
 };
 
+/**
+ * Function: root_fix
+ * Purpose: fixes the root colour to black. 
+ *
+ * @param t is the tree.
+ * @return t the fixed tree. 
+ */
 tree root_fix(tree t){
 
     t->colour = BLACK;
     return t;
 }
 
+/**
+ * Function: right_rotate
+ * Purpose: moves the tree branches from the left to the right. 
+ *
+ * @param t is the tree.
+ * @return t the rotated tree. 
+ */
 static tree right_rotate(tree t){
     tree temp;
     int root_flag = 0;
@@ -57,6 +71,13 @@ static tree right_rotate(tree t){
     return t;
 }
 
+/**
+ * Function: left_rotate
+ * Purpose: moves the tree branches from the right to the left. 
+ *
+ * @param t is the tree.
+ * @return t the rotated tree. 
+ */
 static tree left_rotate(tree t){
     tree  temp;
     int root_flag = 0;
@@ -78,6 +99,14 @@ static tree left_rotate(tree t){
     return t;
 }
 
+/**
+ * Function: tree_fix
+ * Purpose: updates the colours of the branches of the tree,
+ * and makes sure the tree is balanced. 
+ *
+ * @param t is the tree.
+ * @return t the fixed tree. 
+ */
 static tree tree_fix(tree t){
     
     if(IS_RED(t->left) && IS_RED(t->left->left)){
@@ -91,7 +120,6 @@ static tree tree_fix(tree t){
             t->right->colour = RED;
         }
     }else if(IS_RED(t->left) && IS_RED(t->left->right)){
-
         if(IS_RED(t->right)){
             t->colour = RED;
             t->left->colour = BLACK;
@@ -115,7 +143,6 @@ static tree tree_fix(tree t){
             t->left->colour = RED;
         }
     }else if(IS_RED(t->right) && IS_RED(t->right->right)){
-
         if(IS_RED(t->left)){
             t->colour = RED;
             t->left->colour = BLACK;
@@ -126,14 +153,17 @@ static tree tree_fix(tree t){
             t->left->colour = RED;
         }
     }
-
     root_node = root_fix(root_node);
-
     return t;
 }
 
-
-
+/**
+ * Function: tree_free
+ * Purpose: frees all the memory allocated to the tree. 
+ *
+ * @param t is the tree.
+ * @return t the freed tree. 
+ */
 tree tree_free(tree t){
 
     if (t == NULL){
@@ -147,6 +177,15 @@ tree tree_free(tree t){
     }
 }
 
+/**
+ * Function: tree_inorder
+ * Purpose: traverses through the tree in order to search. 
+ *
+ * @param t is the tree.
+ * @param f another function passed in with parameters freq and str.
+ * @param freq frequencies of the string.
+ * @param str the string to search. 
+ */
 void tree_inorder(tree t, void f(int freq, char *str)){
 
     if (t == NULL){
@@ -157,6 +196,14 @@ void tree_inorder(tree t, void f(int freq, char *str)){
     tree_inorder(t->right, f);
 }
 
+/**
+ * Function: tree_insert
+ * Purpose: inserts a string into the tree. 
+ *
+ * @param t is the tree.
+ * @param str is a pointer to the string to be inserted.
+ * @return t the new tree with inserted pointer to string. 
+ */
 tree tree_insert(tree t, char *str){
 
     if (t == NULL || t->key == NULL){
@@ -192,6 +239,13 @@ tree tree_insert(tree t, char *str){
     return t;
 }
 
+/**
+ * Function: tree_new
+ * Purpose: creates a new tree. 
+ *
+ * @param type determines whether the tree is an ordinary bst or balanced rbt.
+ * @return t the created tree. 
+ */
 tree tree_new(tree_t type){
 
     tree t;
@@ -210,6 +264,15 @@ tree tree_new(tree_t type){
 
 }
 
+/**
+ * Function: tree_preorder
+ * Purpose: traverses through the tree in preorder to search. 
+ *
+ * @param t is the tree.
+ * @param f another function passed in with parameters freq and str.
+ * @param freq frequencies of the string.
+ * @param str the string to search. 
+ */
 void tree_preorder(tree t, void f(int freq, char *str)){
 
     if (t == NULL){
@@ -220,6 +283,14 @@ void tree_preorder(tree t, void f(int freq, char *str)){
     tree_preorder(t->right, f);
 }
 
+/**
+ * Function: tree_search
+ * Purpose: searches through the tree. 
+ *
+ * @param t is the tree.
+ * @param str is a pointer to the string to be inserted.
+ * @return 1 if the string exists in the tree, 0 if not.  
+ */
 int tree_search(tree t, char *str){
 
     if (t == NULL){
