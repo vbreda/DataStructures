@@ -1,3 +1,9 @@
+/**
+ * File: htable.c
+ * @author: Vivian Breda, Josh King, Abinaya Saravanapavan.
+ */
+
+
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -11,6 +17,10 @@ static tree_t tree_type;
 
 static tree root_node = NULL;
 
+/**
+ * Struct: tree_node
+ * Purpose: declares the variables for the tree node.
+ */
 struct tree_node {
     char *key;
     tree_colour colour;
