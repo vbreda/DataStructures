@@ -31,7 +31,6 @@ static void print_info(int freq, char *word) {
  */
 static void print_help(){
     
-  /* Trying to do formatting to these standards  https://stackoverflow.com/questions/9725675/is-there-a-standard-format-for-command-line-shell-help-text */
   printf("Usage: ./asgn [OPTIONS]... <STDIN>\n\n");
   
   printf("Perform tasks using a hash table or binary tree. ");
@@ -94,7 +93,7 @@ static int is_prime(int n){
 
 /**
  * Function: find_next_prime
- * Purpose: finds the next prime number. 
+ * Purpose: finds the next greatest prime number from a (inclusive). 
  *
  * @param a is the integer from which the search starts. 
  * @return i the integer which is the next prime after a. 
@@ -112,7 +111,8 @@ static int find_next_prime(int a){
 }
 
 /**
- * Main method
+ * Main method. Takes options given through the command line. Reads words into
+ * a selected data structure before giving output depending on options given.
  */ 
 int main(int argc, char **argv){
 
@@ -203,13 +203,13 @@ int main(int argc, char **argv){
       print_help();
       break;
     default:
-      /* if an unknown option is given */
+      /* If an unknown option is given. */
       print_help();
       break;
     }
   }
 
-  /* Making either an rbt, bst or htable depending on input */
+  /* Making either an rbt, bst or htable depending on input. */
   if (flag_T == TRUE){
     if (flag_r == TRUE){
       t = tree_new(RBT);
@@ -249,7 +249,7 @@ int main(int argc, char **argv){
     htable_print_entire_table(h, stderr);
   }
 
-  /* Perfome comparison to file if c option was given. */
+  /* Performs comparison to file if c option was given. */
   if (flag_c == TRUE){
     unknown = 0;
     infile = fopen(filename, "r");
@@ -284,7 +284,7 @@ int main(int argc, char **argv){
 
     /* Print stats if p option was given, and data structure
        is a hash table, and c option was not given. Otherwise
-       print dta strucutre info as default. */
+       print data strucutre info as default. */
   } else if (flag_p == TRUE && flag_T == FALSE && flag_c == FALSE){
         
     if (flag_s == TRUE){

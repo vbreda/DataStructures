@@ -3,9 +3,9 @@
  * @author: Vivian Breda, Josh King, Abinaya Saravanapavan.
  */
 
-#include <stdio.h> /* for fprintf */
-#include <stdlib.h>/* for size-t, malloc, realloc, exit */
-#include <assert.h> /* for assert*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h> 
 #include <ctype.h>
 #include "mylib.h"
 
@@ -13,7 +13,7 @@
  * Function: emalloc
  * Purpose: allocates a block of memory.
  *
- * @param s the size ( bytes) of memory required for allocation.
+ * @param s the size (bytes) of memory required for allocation.
  * @return the memory address where it has been allocated.
  */
 void *emalloc(size_t s){
@@ -44,7 +44,7 @@ void *erealloc(void *p, size_t s){
 
 /**
  * Function: getword
- * Purpose: reads in the stream which is the file passed. 
+ * Purpose: reads in a word from the given stream, one at a time until the given * is reached or EOF  is returned. 
  *
  * @param s the char pointer to the array s.
  * @param limit the array size of s.
@@ -57,19 +57,19 @@ int getword(char *s, int limit, FILE *stream)
     char *w = s;
     assert(limit > 0 && s!= NULL && stream != NULL);
 
-    while(!isalnum(c = getc(stream)) && EOF != c)
+    while (!isalnum(c = getc(stream)) && EOF != c)
         ;
-    if(EOF == c ){
+    if (EOF == c){
         return EOF;
-    }else if(--limit > 0){
+    } else if (--limit > 0){
         *w++ = tolower(c);
     }
-    while(--limit > 0){
-        if(isalnum(c = getc(stream))){
+    while (--limit > 0){
+        if (isalnum(c = getc(stream))){
             *w++ = tolower(c);
-        }else if('\'' == c){
+        } else if ('\'' == c){
             limit++;
-        }else{
+        } else {
             break;
         }
     }

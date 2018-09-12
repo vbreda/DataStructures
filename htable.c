@@ -79,7 +79,7 @@ void htable_free(htable h) {
  * Purpose: converts a word to an integer, to use as an index position
  * in htable_search.
  *
- * @word char which is a pointer to word.
+ * @param word char which is a pointer to word.
  * @return result the word converted to an unsigned int.
  */
 static unsigned int htable_word_to_int(char *word) {
@@ -92,6 +92,15 @@ static unsigned int htable_word_to_int(char *word) {
   return result;
 }
 
+/**
+ * Function: htable_step
+ * Purpose: Calculates the step to be applied to the hash key after
+ * a collision occurs.
+ *
+ * @param h the htable the step is being calculated for.
+ * @param i_key the index of the data the step is being calculated for.
+ * @return the step value with which to increase the hash.
+ */
 static unsigned int htable_step(htable h, unsigned int i_key) {
   
   if (h->method == LINEAR_P) {
@@ -113,7 +122,7 @@ static unsigned int htable_step(htable h, unsigned int i_key) {
  * @param h the hash table into which keys are inserted.
  * @param str the word to be inserted into the container.
  * @return 0 if the htable is full, 1 if the key is inserted for the first time,
- * or the frequency of that key if it being inserted again.
+ * or the frequency of that key if it is being inserted again.
  */
 int htable_insert(htable h, char *str) {
 
@@ -130,6 +139,7 @@ int htable_insert(htable h, char *str) {
   } else {
     position = hash;
     i = position;
+    
     do {
       if (h->keys[i] == NULL){
 	h->keys[i] = emalloc((strlen(str)+1) * sizeof (h->keys[i][0]));
@@ -138,6 +148,7 @@ int htable_insert(htable h, char *str) {
 	h->num_keys++;
 	h->stats[h->num_keys] = collisions;
 	return 1;
+        
       } else if (strcmp(h->keys[i], str) == 0) {
 	collisions++;
 	h->frequencies[i]++;

@@ -31,7 +31,7 @@ struct tree_node {
 
 /**
  * Function: root_fix
- * Purpose: fixes the root colour to black. 
+ * Purpose: changes the root colour to black. 
  *
  * @param t is the tree.
  * @return t the fixed tree. 
@@ -44,7 +44,8 @@ tree root_fix(tree t){
 
 /**
  * Function: right_rotate
- * Purpose: moves the tree branches from the left to the right. 
+ * Purpose: rotates the tree branches from the left to the right
+ * around the root of given subtree. 
  *
  * @param t is the tree.
  * @return t the rotated tree. 
@@ -73,7 +74,8 @@ static tree right_rotate(tree t){
 
 /**
  * Function: left_rotate
- * Purpose: moves the tree branches from the right to the left. 
+ * Purpose: rotates the tree branches from the right to the left
+ * around the root of given subtree.
  *
  * @param t is the tree.
  * @return t the rotated tree. 
@@ -179,7 +181,8 @@ tree tree_free(tree t){
 
 /**
  * Function: tree_inorder
- * Purpose: traverses through the tree in order to search. 
+ * Purpose: traverses through the tree in sorted order and performs the
+ * given function on the data in each node.
  *
  * @param t is the tree.
  * @param f another function passed in with parameters freq and str.
@@ -262,7 +265,8 @@ tree tree_new(tree_t type){
 
 /**
  * Function: tree_preorder
- * Purpose: traverses through the tree in preorder to search. 
+ * Purpose: traverses through the tree in preorder and performs the
+ * given function on the data in each node.
  *
  * @param t is the tree.
  * @param f another function passed in with parameters freq and str.
@@ -281,7 +285,7 @@ void tree_preorder(tree t, void f(int freq, char *str)){
 
 /**
  * Function: tree_search
- * Purpose: searches through the tree. 
+ * Purpose: searches through the tree for a given string. 
  *
  * @param t is the tree.
  * @param str is a pointer to the string to be inserted.
